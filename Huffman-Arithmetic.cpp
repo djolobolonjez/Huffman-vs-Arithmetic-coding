@@ -27,7 +27,7 @@ namespace HuffmanArithmetic {
 
     
     struct EncodingArgs {
-        std::priority_queue<Symbol*, std::vector<Symbol*>, Comparator> heap;
+        std::priority_queue<Symbol*, std::vector<Symbol*>, Comparator> pq;
         std::map<std::string, std::pair<int, double>> symbolMap;
         Symbol* treeRoot;
         double arithmeticCodeInterval = 1;
@@ -53,21 +53,21 @@ namespace HuffmanArithmetic {
     }
 
     void createTree(EncodingArgs& args) {
-        if (args.heap.size() == 1) {
-            args.treeRoot = args.heap.top();
+        if (args.pq.size() == 1) {
+            args.treeRoot = args.pq.top();
         }
         else {
-            while (args.heap.size() != 1) {
-                Symbol* left = args.heap.top(); args.heap.pop();
-                Symbol* right = args.heap.top(); args.heap.pop();
+            while (args.pq.size() != 1) {
+                Symbol* left = args.pq.top(); args.pq.pop();
+                Symbol* right = args.pq.top(); args.pq.pop();
                 Symbol* parent = new Symbol("#", left->p + right->p);
               
                 parent->left = left;
                 parent->right = right;
-                args.heap.push(parent);
+                args.pq.push(parent);
             }
             
-            args.treeRoot = args.heap.top();
+            args.treeRoot = args.pq.top();
         }
     }
     
@@ -86,7 +86,7 @@ namespace HuffmanArithmetic {
         for (auto iter = args.symbolMap.begin(); iter != args.symbolMap.end(); iter++) {
             double p = (double)iter->second.first / sequence.length();
             iter->second.second = p;
-            args.heap.push(new Symbol(iter->first, p));
+            args.pq.push(new Symbol(iter->first, p));
         }
 
         createTree(args);
