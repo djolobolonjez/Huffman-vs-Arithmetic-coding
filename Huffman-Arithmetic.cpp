@@ -11,12 +11,11 @@ namespace HuffmanArithmetic {
 
     struct Symbol {
         std::string symb;
-        int len;
         double p;
 
         Symbol* left = nullptr, *right = nullptr;
 
-        Symbol(std::string _symb, double _p) : symb(_symb), p(_p) { len = symb.length(); } 
+        Symbol(std::string _symb, double _p) : symb(_symb), p(_p) { } 
         bool operator<(const Symbol& rhs) const { return p > rhs.p; }
     };
 
